@@ -1,0 +1,52 @@
+.sidenav-container {
+    height: 100vh;
+  }
+  
+  .sidenav {
+    width: 220px;
+  }
+  
+  .main-content {
+    padding: 1rem;
+  }
+  
+  .hide-desktop {
+    display: none;
+  }
+
+  ::ng-deep .mat-mdc-list-item-unscoped-content{
+    display: flex;
+    align-items: center;
+    .mat-icon{
+      margin-right: 5px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .sidenav {
+      width: 200px;
+    }
+  
+    .hide-desktop {
+      display: inline-flex;
+    }
+  
+    mat-sidenav {
+      mode: over;
+    }
+  }
+  
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .toolbar-title {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
