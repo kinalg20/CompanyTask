@@ -33,7 +33,7 @@ export class UserComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (['submitted' , 'Updated'].includes(result.status)) {
-        this.getUserList();  // <-- your parent component function
+        this.getUserList();
       }
     });
   }
