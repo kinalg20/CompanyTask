@@ -32,13 +32,22 @@ export class UserComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (['submitted' , 'Updated'].includes(result.status)) {
+      if (['Submitted' , 'Updated'].includes(result?.status)) {
+        if(result.status == 'Submitted'){
+          this.apiService.showToast('User Added Successfully')
+        }
+
+        else{
+          this.apiService.showToast('User Updated Successfully')
+        }
         this.getUserList();
       }
     });
   }
 
-  deleteUser(id : any) { }
+  deleteUser(id : any) {
+    
+   }
 }
 
  

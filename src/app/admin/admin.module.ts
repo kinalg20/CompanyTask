@@ -6,10 +6,11 @@ import { UserComponent } from './user/user.component';
 import { SharedModule } from '../shared/shared.module';
 import { AdminComponent } from './admin.component';
 import { DialogComponent } from './dialog/dialog.component';
+import { ReportComponent } from './report/report.component';
 
 
 @NgModule({
-  declarations: [UserComponent, AdminComponent, DialogComponent],
+  declarations: [UserComponent, AdminComponent, DialogComponent, ReportComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

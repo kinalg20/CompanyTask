@@ -16,20 +16,21 @@ export class DialogComponent {
     this.userForm.patchValue(data.userInfo);
   }
   userForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   })
 
-  onSubmit(){
+  async onSubmit(){
     let result : any = {};
-    if(this.data.userInfo){
-      this.apiService.updateUser(this.userForm.value)
-      result['status'] = 'Updated'
+    if(Object.keys(this.data.userInfo)?.length){
+      result.status = 'Updated';
+      let userDetails = Object.assign({} , {id : this.data.userInfo.id} , this.userForm.value)
+      await this.apiService.updateUser(userDetails);
     }
     else{
-      this.apiService.addUser(this.userForm.value);
-      result['status'] = 'Submitted'
+      result.status = 'Submitted';
+      await this.apiService.addUser(this.userForm.value);
     }
     this.closeDialog(result);
   }

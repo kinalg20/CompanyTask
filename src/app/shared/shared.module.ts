@@ -11,6 +11,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 const exportsModule = [
@@ -25,7 +26,8 @@ const exportsModule = [
   CommonModule,
   MatTableModule,
   ReactiveFormsModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSnackBarModule
 ]
 
 
