@@ -18,7 +18,7 @@ export class LoginComponent {
   onLogin() {
     if (this.loginForm.valid) {
       console.log(this.loginForm.value);
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('admin/home');
     }
   }
 }
