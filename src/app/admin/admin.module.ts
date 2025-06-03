@@ -7,10 +7,11 @@ import { SharedModule } from '../shared/shared.module';
 import { AdminComponent } from './admin.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { ReportComponent } from './report/report.component';
+import { SettingsComponent } from './settings/settings.component';
 
 
 @NgModule({
-  declarations: [UserComponent, AdminComponent, DialogComponent, ReportComponent],
+  declarations: [UserComponent, AdminComponent, DialogComponent, ReportComponent, SettingsComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

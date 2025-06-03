@@ -1,0 +1,20 @@
+.responsive-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Optional: min-width so columns don’t squeeze too much */
+  table {
+    // min-width: 800px; /* Adjust based on number of columns */
+    width: 100%;
+  }
+  
+  .centerdiv{
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .centeraction{
+    display: flex; 
+    align-items: center;
+  }

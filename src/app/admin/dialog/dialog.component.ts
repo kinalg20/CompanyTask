@@ -9,6 +9,11 @@ import { ApiService } from 'src/app/api.service';
   styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent {
+  options = [
+    { value: 'viewer', label: 'viewer' },
+    { value: 'editor', label: 'editor' },
+    { value: 'admin', label: 'admin' }
+  ];
   closeDialog(result?:any) {
     this.dialogRef.close(result);
   }
@@ -18,6 +23,7 @@ export class DialogComponent {
   userForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
+    role: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required])
   })
 

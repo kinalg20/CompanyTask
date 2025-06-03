@@ -1,37 +1,57 @@
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav mode="side" opened class="sidenav">
-        <mat-toolbar>Menu</mat-toolbar>
-        <mat-nav-list>
-            <a mat-list-item routerLink="/dashboard"><mat-icon>dashboard</mat-icon> Dashboard</a>
-            <a mat-list-item routerLink="/admin/users"><mat-icon>group</mat-icon> Users</a>
-            <a mat-list-item routerLink="/settings"><mat-icon>settings</mat-icon> Settings</a>
-        </mat-nav-list>
+    <mat-sidenav
+      #sidenav
+      [mode]="isSmallScreen ? 'over' : 'side'"
+      [opened]="!isSmallScreen"
+      class="sidenav"
+    >
+      <mat-toolbar>Menu</mat-toolbar>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/admin/home"><mat-icon>dashboard</mat-icon> {{'Dashboard' | translate}}</a>
+        <a mat-list-item routerLink="/admin/users"><mat-icon>group</mat-icon> {{'Users' | translate}}</a>
+        <a mat-list-item routerLink="/admin/reports"><mat-icon>assessment</mat-icon> {{'Reports' | translate}}</a>
+        <a mat-list-item routerLink="/admin/settings"><mat-icon>settings</mat-icon> {{'Settings' | translate}}</a>
+      </mat-nav-list>
     </mat-sidenav>
-
+  
     <mat-sidenav-content>
-        <mat-toolbar color="primary" class="toolbar">
-            <span class="toolbar-title">Welcome Admin Panel</span>
-
-            <span class="spacer"></span>
-
-            <button mat-icon-button [matMenuTriggerFor]="profileMenu">
-            </button>
-            <span style="font-size: 13px;display: flex;align-items: center;">Kinal Kukda (Viewer)<button mat-icon-button
-                    [matMenuTriggerFor]="profileMenu">
-                    <mat-icon>arrow_drop_down</mat-icon>
-                </button></span>
-
-            <mat-menu #profileMenu="matMenu">
-                <button mat-menu-item (click)="routing()">
-                    <mat-icon>logout</mat-icon>
-                    <span>Logout</span>
-                </button>
-            </mat-menu>
-        </mat-toolbar>
-
-
-        <div class="main-content">
-            <router-outlet></router-outlet>
-        </div>
+      <mat-toolbar color="primary" class="toolbar">
+        <!-- Show menu icon on small screen -->
+        <button
+          *ngIf="isSmallScreen"
+          mat-icon-button
+          (click)="sidenav.toggle()"
+          aria-label="Toggle sidenav"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+  
+        <span class="toolbar-title">{{'welcomeMessage' | translate}}</span>       
+  
+        <span class="spacer"></span>
+        <select name="" id="" style="margin-right : 10px; padding: 5px;" (change)="switchLanguage($event)">
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+        </select>
+  
+        <span class="toolbar-title toolbar">
+          Kinal Kukda (Viewer)
+          <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+        </span>
+  
+        <mat-menu #profileMenu="matMenu">
+          <button mat-menu-item (click)="routing()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </mat-toolbar>
+  
+      <div class="main-content">
+        <router-outlet></router-outlet>
+      </div>
     </mat-sidenav-content>
-</mat-sidenav-container>
+  </mat-sidenav-container>
+  

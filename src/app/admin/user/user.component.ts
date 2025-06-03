@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../api.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { ViewChild, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-user',
@@ -9,45 +13,18 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent {
-  users: any = [];
+  displayedColumns: string[] = ['id', 'name', 'email', 'password' , 'role', 'actions'];
+  users = new MatTableDataSource<any>([]);
   constructor(private apiService: ApiService , private dialog: MatDialog) { }
-
   ngOnInit() {
     this.getUserList();
   }
 
   getUserList(){
-    this.apiService.getUsers().subscribe(data => this.users = data);
-  }
-
-  openDialog(user?:any) {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '800px', 
-      autoFocus: false,
-      disableClose: true,
-      data: {
-        userInfo : user ? user : {},
-        title : user ? 'Edit User' : 'Add User'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (['Submitted' , 'Updated'].includes(result?.status)) {
-        if(result.status == 'Submitted'){
-          this.apiService.showToast('User Added Successfully')
-        }
-
-        else{
-          this.apiService.showToast('User Updated Successfully')
-        }
-        this.getUserList();
-      }
+    this.apiService.getUsers().subscribe(users => {
+      this.users.data = users;
     });
   }
-
-  deleteUser(id : any) {
-    
-   }
 }
 
  

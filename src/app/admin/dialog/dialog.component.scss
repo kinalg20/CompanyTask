@@ -12,3 +12,13 @@
 .buttonSubmit{
     margin-top: 5px;
 }
+
+.common-dialog{
+    ::ng-deep .mat-mdc-text-field-wrapper{
+        height: 50px!important;
+    }
+    
+    ::ng-deep .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label{
+        top: 24px!important;
+    }
+}

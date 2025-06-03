@@ -12,7 +12,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { CommonTableComponent } from './common-table/common-table.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 const exportsModule = [
   MatInputModule,
@@ -27,15 +33,21 @@ const exportsModule = [
   MatTableModule,
   ReactiveFormsModule,
   MatDialogModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatSortModule,
+  MatPaginatorModule,
+  MatSelectModule,
+  TranslateModule
 ]
+
+const exportComponent = [CommonTableComponent , ConfirmationDialogComponent]
 
 
 @NgModule({
-  declarations: [],
+  declarations: [...exportComponent],
   imports: [
    ...exportsModule
   ],
-  exports : [...exportsModule]
+  exports : [...exportsModule , ...exportComponent]
 })
 export class SharedModule { }
