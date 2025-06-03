@@ -2,6 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-admin',
@@ -9,10 +10,10 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
-  constructor(private router : Router , private breakpointObserver: BreakpointObserver , private translate : TranslateService){}
+  constructor(private router : Router, private apiService : ApiService, private breakpointObserver: BreakpointObserver , private translate : TranslateService){}
   isSmallScreen: boolean = false;
   routing(){
-    this.router.navigateByUrl('/');
+    this.apiService.logout()
   }
   
 

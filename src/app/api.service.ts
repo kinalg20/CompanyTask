@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, lastValueFrom } from 'rxjs';
+import { BehaviorSubject, catchError, lastValueFrom, Observable, ReplaySubject, shareReplay, tap, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,13 @@ export class ApiService {
     { id: 2, name: 'Bob', email: 'bob@mail.com', password: '234' },
   ]);
 
-  constructor(private snackBar: MatSnackBar ,  private http : HttpClient, private translate: TranslateService) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private http: HttpClient,
+    private router: Router, 
+    private translate: TranslateService
+  ) { }
+
   getUsers() {
     return this.users$.asObservable();
   }
@@ -61,19 +68,19 @@ export class ApiService {
   }
 
   deleteUser(id: number) {
-    return new Promise((resolve , reject)=>{
-      try{
+    return new Promise((resolve, reject) => {
+      try {
         const current = this.users$.value.filter(u => u.id !== id);
         this.users$.next(current);
       }
 
-      catch(err){
+      catch (err) {
         reject(err);
       }
     })
   }
 
-  showToast(message : any){
+  showToast(message: any) {
     this.snackBar.open(message, 'Close', {
       duration: 3000, // in milliseconds
       horizontalPosition: 'right',
@@ -103,5 +110,55 @@ export class ApiService {
 
   getDashboardCards(){
     return this.http.get('https://mocki.io/v1/374f37f4-4aba-4620-ac2f-1ab93f0c28f7');
+  }
+  login(data: any) {
+    return this.http.post("https://dummyjson.com/auth/login", data);
+  }
+
+
+  private loginInfo$?: Observable<any>;
+
+  // Use ReplaySubject to cache the user session
+  private userSession = new ReplaySubject<any>(1);
+
+  private fetchLoginInformation() {
+    return this.http.get("https://dummyjson.com/auth/me").pipe(
+      tap((data: any) => {
+        this.userSession.next(data);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        this.showToast(error.error.message)
+        this.userSession.next({is_login : false});
+        this.router.navigate(['/', 'auth'])
+        return throwError(() => error.error.message)
+      }),
+      shareReplay(1)
+    );
+  }
+
+  getLoginInformation(): Observable<any> {
+    if (!this.loginInfo$) {
+      // Fetch login information if it's not already cached
+      this.loginInfo$ = this.fetchLoginInformation();
+      this.loginInfo$.subscribe()
+    }
+    return this.userSession.asObservable();
+  }
+
+
+  reinitiateLogin() {
+    // Reset the cached login information
+    this.loginInfo$ = undefined;
+    // Fetch login information again
+    return this.fetchLoginInformation();
+  }
+
+
+  logout() {
+    localStorage.removeItem('auth_token')
+    this.showToast("Log out successfully!!");
+    this.loginInfo$ = undefined;
+    this.userSession = new ReplaySubject<any>(1);
+    this.router.navigate(['/', 'auth']);
   }
 }
