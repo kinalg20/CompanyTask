@@ -9,7 +9,6 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent {
-  displayedColumns = ['id', 'name', 'email', 'actions'];
   users: any = [];
   constructor(private apiService: ApiService , private dialog: MatDialog) { }
 
@@ -26,12 +25,15 @@ export class UserComponent {
       width: '800px', 
       autoFocus: false,
       disableClose: true,
-      data: { /* pass any data if needed */ }
+      data: {
+        userInfo : user ? user : {},
+        title : user ? 'Edit User' : 'Add User'
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result === 'submitted') {
-        this.refreshUserList();  // <-- your parent component function
+      if (['submitted' , 'Updated'].includes(result.status)) {
+        this.getUserList();  // <-- your parent component function
       }
     });
   }

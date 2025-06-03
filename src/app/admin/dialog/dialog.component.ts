@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ApiService } from 'src/app/api.service';
 
 @Component({
   selector: 'app-dialog',
@@ -8,10 +9,12 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent {
-  closeDialog() {
-    this.dialogRef.close();
+  closeDialog(result?:any) {
+    this.dialogRef.close(result);
   }
-  constructor(public dialogRef: MatDialogRef<DialogComponent>) { }
+  constructor(public dialogRef: MatDialogRef<DialogComponent> , @Inject(MAT_DIALOG_DATA) public data: any, private apiService : ApiService) { 
+    this.userForm.patchValue(data.userInfo);
+  }
   userForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
@@ -19,6 +22,15 @@ export class DialogComponent {
   })
 
   onSubmit(){
-    console.log(this.userForm.value)
+    let result : any = {};
+    if(this.data.userInfo){
+      this.apiService.updateUser(this.userForm.value)
+      result['status'] = 'Updated'
+    }
+    else{
+      this.apiService.addUser(this.userForm.value);
+      result['status'] = 'Submitted'
+    }
+    this.closeDialog(result);
   }
 }

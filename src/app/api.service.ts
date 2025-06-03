@@ -7,8 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 export class ApiService {
 
   private users$ = new BehaviorSubject<any[]>([
-    { id: 1, name: 'Alice', email: 'alice@mail.com' },
-    { id: 2, name: 'Bob', email: 'bob@mail.com' },
+    { id: 1, name: 'Alice', email: 'alice@mail.com' , password : '234'},
+    { id: 2, name: 'Bob', email: 'bob@mail.com' , password : '234'},
   ]);
 
   constructor() { }
