@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { UserActions } from './user.actions';
 import { UsersService } from '../service/users.service';
-import { User } from './user.model';
+import { ToastService } from '../service/toast.service';
 
 @Injectable()
 export class UserEffects {
@@ -21,32 +21,34 @@ export class UserEffects {
       )
     )
   );
-  
+
 
   addUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.addUser),
       mergeMap(action =>
         this.userService.addUser(action.user).pipe(
-          mergeMap(user => [
-            UserActions.addUsersSuccess(),
+          tap((user: any) => {
+            this.toastService.showToast(user.message);
+          }),
+          mergeMap((user: any) => [
+            UserActions.addUserSuccess({ user }),
             UserActions.loadUsers()
           ]),
-          catchError(error => of(UserActions.addUsersFailure({ error })))
+          catchError(error => of(UserActions.addUserFailure({ error })))
         )
       )
-    ),{ dispatch: false }
-  );
+    ));
   updateUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.updateUser),
       mergeMap(action =>
-        this.userService.updateUser(action.user.id , action.user).pipe(
-          mergeMap(user => [
-            UserActions.addUsersSuccess(),
+        this.userService.updateUser(action.user.id, action.user).pipe(
+          mergeMap((user: any) => [
+            UserActions.addUserSuccess(user),
             UserActions.loadUsers()
           ]),
-          catchError(error => of(UserActions.addUsersFailure({ error })))
+          catchError(error => of(UserActions.addUserFailure({ error })))
         )
       )
     )
@@ -56,16 +58,16 @@ export class UserEffects {
       ofType(UserActions.deleteUser),
       mergeMap(action =>
         this.userService.deleteUser(Number(action.id)).pipe(
-          mergeMap(user => [
-            UserActions.addUsersSuccess(),
+          mergeMap((user: any) => [
+            UserActions.addUserSuccess(user),
             UserActions.loadUsers()
           ]),
-          catchError(error => of(UserActions.addUsersFailure({ error })))
+          catchError(error => of(UserActions.addUserFailure({ error })))
         )
       )
     )
   );
-  
 
-  constructor(private actions$: Actions , private userService : UsersService) {}
+
+  constructor(private actions$: Actions, private userService: UsersService, private toastService: ToastService) { }
 }

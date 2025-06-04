@@ -42,18 +42,18 @@ describe('UsersService', () => {
   });
 
   it('should add a user correctly', (done) => {
-    const newUser: User = { name: 'kinal', email: 'kinal@mail.com', password: '1234', role: 'admin' };
-    service.addUser(newUser).subscribe(addedUser => {
+    const newUser: User = {  name: "John Doe", email: "kina@mail.com", role: "admin", username: "johndoe234", password :"password123erertertert", createdBy: 'system', expiresInMins: '60', avatar: "http://example.com/avatar.png" };
+    service.addUser(newUser).subscribe((addedUser : any) => {
       expect(addedUser).toBeTruthy();
-      expect(addedUser.id).toBeGreaterThan(0);
+      expect(addedUser['id']).toBeGreaterThan(0);
       expect(service['userList'].some((u: User) => u.email === 'kinal@mail.com')).toBeTrue();
       done();
     });
   });
   it('should update a user correctly', (done) => {
-    const updatedData = {id : 1 , name: 'kinal123', email: 'kinal@mail.com', password: '1234', role: 'admin' };
+    const updatedData = { id : 1 , name: "John Doe", email: "kina@mail.com", role: "admin", userName: "johndoe234", password :"password123erertertert", createdBy: 'system', expiresInMins: '60', avatar: "http://example.com/avatar.png" };;
     const userId = updatedData.id;
-    service.updateUser(userId, updatedData).subscribe(updatedUser => {
+    service.updateUser(userId, updatedData).subscribe((updatedUser : any) => {
       expect(updatedUser.name).toEqual(updatedData.name);
       const foundUser = service['userList'].find((u: User) => u.id === userId);
       expect(foundUser.name).toEqual(updatedData.name);

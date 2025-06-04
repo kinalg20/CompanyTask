@@ -9,6 +9,8 @@ import { UsersService } from 'src/app/service/users.service';
 import { Store } from '@ngrx/store';
 import { UserActions } from 'src/app/state/user.actions';
 import { ToastService } from 'src/app/service/toast.service';
+import { Actions, ofType } from '@ngrx/effects';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-common-table',
@@ -24,10 +26,8 @@ export class CommonTableComponent {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('tableRef') tableRef!: ElementRef;
   @ViewChild('paginatorRef') paginationcss!: ElementRef;
-  constructor(private apiService: ApiService, private userService: UsersService, private dialog: MatDialog, private store: Store,private toastService : ToastService) { }
-  ngOnInit() {
-    // this.store.dispatch(UserActions.loadUsers());
-  }
+  constructor(private actions$: Actions , private apiService: ApiService, private userService: UsersService, private dialog: MatDialog, private store: Store, private toastService: ToastService) { }
+
   openDialog(user?: any) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '800px',
@@ -60,9 +60,16 @@ export class CommonTableComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.store.dispatch(UserActions.deleteUser({ id }));
-        // this.userService.deleteUser(id).subscribe(() => {
-        //   this.apiService.showToast('user deleted successfully');
-        // });
+        this.actions$.pipe(
+          ofType(UserActions.addUserSuccess, UserActions.addUserFailure),
+          take(1)
+        ).subscribe((action : any) => {
+          if (action.type === UserActions['addUserSuccess'].type) {
+            this.toastService.showToast(action.message)
+          } else {
+            this.toastService.showToast(action.message)
+          }
+        });
       }
     });
   }
@@ -70,10 +77,8 @@ export class CommonTableComponent {
   ngAfterViewInit() {
     this.tableData.paginator = this.paginator;
     this.tableData.sort = this.sort;
-    // this.paginationcss.nativeElement.width = this.tableRef.nativeElement.offsetWidth + 'px';
     const observer = new ResizeObserver(() => {
       const width = this.tableRef.nativeElement.offsetWidth;
-      console.log('Updated width:', width);
     });
     observer.observe(this.tableRef.nativeElement);
   }

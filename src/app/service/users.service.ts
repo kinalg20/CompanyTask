@@ -1,9 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, catchError, lastValueFrom, map, Observable, of, tap } from 'rxjs';
+import { of } from 'rxjs';
 import { User } from '../state/user.model';
 import { jwtDecode } from 'jwt-decode';
 
@@ -25,35 +22,18 @@ export class UsersService {
 
 
   addUser(user: User) {
-    let userObject = {...user ,  "createdBy": "system", "expiresInMins": 60}
-    return this.http.post('https://api.zabali.co/api/user-auth/register', userObject)
-    // const lastUser = this.userList[this.userList.length - 1];
-    // const newId = lastUser ? lastUser.id + 1 : 1;
-    // const newUser: any = { ...user, id: newId };
-    // let userListClone: any = JSON.parse(JSON.stringify(this.userList))
-    // userListClone.push(newUser);
-    // this.userList = userListClone;
+    return this.http.post('https://api.zabali.co/api/user-auth/register', user)
   }
 
 
 
   updateUser(id: any, updated: any) {
-    let userListClone: any = JSON.parse(JSON.stringify(this.userList));
-    const index = userListClone.findIndex((res: any) => res.id == id);
-    if (index !== -1) {
-      userListClone[index] = { ...userListClone[index], ...updated };
-    }
-
-    this.userList = userListClone;
-    return of(updated);
+    let userObject = {...updated ,  "createdBy": "system", "expiresInMins": 60 , "avatar": "http://example.com/avatar.png"};
+    return this.http.put(`https://api.zabali.co/api/user-auth/${id}`,userObject)
   }
 
   deleteUser(id: number) {
-    let userListClone: any = JSON.parse(JSON.stringify(this.userList));
-    const index = userListClone.findIndex((res: any) => res.id == id);
-    userListClone.splice(index, 1);
-    this.userList = userListClone;
-    return of(id);
+    return this.http.delete(`https://api.zabali.co/api/user-auth/${id}`)
   }
 
   loginUser(userObj: any) {
@@ -62,7 +42,12 @@ export class UsersService {
 
   getUserInfoByToken() {
     let token = localStorage.getItem('user_token');
-    const decoded: any = jwtDecode(token!);
-    return this.http.get(`https://api.zabali.co/api/user-auth/${decoded.id}`);
+    if(token){
+      const decoded: any = jwtDecode(token!);
+      return this.http.get(`https://api.zabali.co/api/user-auth/${decoded.id}`);
+    }
+    else{
+      return of('');
+    }
   }
 }

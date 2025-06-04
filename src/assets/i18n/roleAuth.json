@@ -1,0 +1,25 @@
+{
+    "roles" : [
+        {
+            "id" : 3,
+            "role" : "admin,editor,viewer",
+            "route" : "/admin/home",
+            "module" : "Dashboard",
+            "icon" : "assessment"
+        },
+         {
+            "id" : 1,
+            "role" : "admin",
+            "route" : "/admin/users",
+            "module" : "Users",
+            "icon" : "dashboard"
+        },
+        {
+            "id" : 2,
+            "role" : "admin,editor",
+            "route" : "/admin/reports",
+            "module" : "Reports",
+            "icon" : "group"
+        }
+    ]
+}

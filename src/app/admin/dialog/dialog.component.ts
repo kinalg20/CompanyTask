@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, ErrorHandler, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Actions, ofType } from '@ngrx/effects';
@@ -41,32 +41,31 @@ export class DialogComponent {
       if (this.userForm.value.id) {
         result.status = 'Updated';
         this.store.dispatch(UserActions.updateUser({ user: this.userForm.value }));
+        
         this.actions$.pipe(
-          ofType(UserActions.addUsersSuccess, UserActions.addUsersFailure),
+          ofType(UserActions.addUserSuccess, UserActions.addUserFailure),
           take(1)
         ).subscribe(action => {
-          if (action.type === UserActions.addUsersSuccess.type) {
+          if (action.type === UserActions.addUserSuccess.type) {
             result.response = 'Success';
+            this.closeDialog(result);
           } else {
             result.response = 'Failure';
           }
-          this.closeDialog(result);
         });
       }
       else {
         result.status = 'Submitted';
-        let userInfo = Object.assign({}, this.userForm.value, { "avatar": "http://example.com/avatar.png" , "expiresInMins": 60})
+        let userInfo = Object.assign({}, this.userForm.value, { "avatar": "http://example.com/avatar.png" , "expiresInMins": 60 , "createdBy" : 'system'})
         this.store.dispatch(UserActions.addUser({ user: userInfo }));
         this.actions$.pipe(
-          ofType(UserActions.addUsersSuccess, UserActions.addUsersFailure),
+          ofType(UserActions.addUserSuccess, UserActions.addUserFailure),
           take(1)
         ).subscribe(action => {
-          if (action.type === UserActions.addUsersSuccess.type) {
-            result.response = 'Success';
-          } else {
-            result.response = 'Failure';
+          console.log(action , UserActions);
+          if (action.type.includes('Success')) {
+            this.closeDialog({ response: 'Success' });
           }
-          this.closeDialog(result);
         });
       }
     }

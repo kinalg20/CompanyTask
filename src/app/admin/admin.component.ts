@@ -11,13 +11,14 @@ import { UsersService } from '../service/users.service';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
-  constructor(private router: Router, private userService: UsersService, private breakpointObserver: BreakpointObserver, private translate: TranslateService) { }
+  constructor(private router: Router, private userService: UsersService,private apiService : ApiService, private breakpointObserver: BreakpointObserver, private translate: TranslateService) { }
   isSmallScreen: boolean = false;
   toggleSettings = false;
   selectedLang = this.translate.currentLang || 'en';
 
   routing() {
-    // this.apiService.logout()
+    localStorage.clear();
+    this.router.navigateByUrl('/auth/login');
   }
 
 
@@ -27,6 +28,7 @@ export class AdminComponent {
     });
     this.selectedLang = localStorage.getItem('selectedLang') ?? 'en';
     this.translate.use(this.selectedLang);
+    this.getMenu()
     this.getUserInfo();
   }
 
@@ -35,9 +37,19 @@ export class AdminComponent {
     localStorage.setItem('selectedLang', lang.value)
   }
 
+  userInfo : any = {};
   getUserInfo() {
-    // this.userService.getUserInfoByToken().subscribe((res: any) => {
-    //   console.log(res);
-    // })
+    this.userService.getUserInfoByToken().subscribe((res: any) => {
+      console.log(res);
+      this.userInfo = res;
+      this.menuList = this.menuList.filter((res:any)=> res.role.includes(this.userInfo.role));
+    })
+  }
+
+  menuList : any = [];
+  getMenu(){
+    this.apiService.getJsonData().subscribe((res:any)=>{
+      this.menuList = res['roles'];
+    })
   }
 }

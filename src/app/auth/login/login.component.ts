@@ -36,7 +36,7 @@ export class LoginComponent {
           }
         },
         complete: () => {
-          this.router.navigateByUrl('/admin/home')
+          this.router.navigateByUrl('/admin/home');
         },
         error: (err: any) => {
           this.toastService.showToast(err.error.error);

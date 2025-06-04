@@ -3,10 +3,9 @@
     <mat-sidenav #sidenav [mode]="isSmallScreen ? 'over' : 'side'" [opened]="!isSmallScreen" class="sidenav">
       <mat-toolbar>Menu</mat-toolbar>
       <mat-nav-list>
-        <a mat-list-item routerLink="/admin/home"><mat-icon>dashboard</mat-icon> {{'Dashboard' | translate}}</a>
-        <a mat-list-item routerLink="/admin/users"><mat-icon>group</mat-icon> {{'Users' | translate}}</a>
-        <a mat-list-item routerLink="/admin/reports"><mat-icon>assessment</mat-icon> {{'Reports' | translate}}</a>
-        <a mat-list-item routerLink="/admin/settings"><mat-icon>settings</mat-icon> {{'Settings' | translate}}</a>
+        <ng-container *ngFor="let menu of menuList">
+          <a mat-list-item [routerLink]="menu.route"><mat-icon>{{menu.icon}}</mat-icon> {{menu.module | translate}}</a>
+        </ng-container>
       </mat-nav-list>
     </mat-sidenav>
 
@@ -20,7 +19,7 @@
 
         <span class="spacer"></span>
         <span class="toolbar-title toolbar">
-          Kinal Kukda (Viewer)
+          {{userInfo.name}} ({{userInfo.role}})
           <button mat-icon-button [matMenuTriggerFor]="profileMenu">
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
