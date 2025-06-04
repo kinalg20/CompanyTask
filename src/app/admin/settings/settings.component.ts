@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from 'src/app/api.service';
+import { ApiService } from 'src/app/service/api.service';
 
 @Component({
   selector: 'app-settings',
@@ -8,11 +8,11 @@ import { ApiService } from 'src/app/api.service';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
-  selectedTheme = this.apiService.getTheme();
+  // selectedTheme = this.apiService.getTheme();
 
   constructor(private apiService : ApiService , private translate: TranslateService) {}
 
-  changeTheme(theme: string) {
-    this.apiService.setTheme(theme as 'light-theme' | 'dark-theme');
-  }
+  // changeTheme(theme: string) {
+  //   this.apiService.setTheme(theme as 'light-theme' | 'dark-theme');
+  // }
 }

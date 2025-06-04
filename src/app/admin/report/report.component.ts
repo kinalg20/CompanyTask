@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { ApiService } from 'src/app/api.service';
+import { ApiService } from 'src/app/service/api.service';
 
 @Component({
   selector: 'app-report',

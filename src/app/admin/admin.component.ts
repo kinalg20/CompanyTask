@@ -2,7 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../service/api.service';
 
 @Component({
   selector: 'app-admin',

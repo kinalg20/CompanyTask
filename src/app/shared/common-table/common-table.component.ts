@@ -3,8 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { DialogComponent } from 'src/app/admin/dialog/dialog.component';
-import { ApiService } from 'src/app/api.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ApiService } from 'src/app/service/api.service';
+import { UsersService } from 'src/app/service/users.service';
 
 @Component({
   selector: 'app-common-table',
@@ -20,7 +21,7 @@ export class CommonTableComponent {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('tableRef') tableRef!: ElementRef;
   @ViewChild('paginatorRef') paginationcss!: ElementRef;
-  constructor(private apiService: ApiService, private dialog: MatDialog) { }
+  constructor(private apiService: ApiService,private userService : UsersService, private dialog: MatDialog) { }
   openDialog(user?: any) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '800px',
@@ -53,7 +54,7 @@ export class CommonTableComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Proceed with deletion
-        this.apiService.deleteUser(id).then(() => {
+        this.userService.deleteUser(id).then(() => {
           this.apiService.showToast('user deleted successfully');
         });
       }
