@@ -7,6 +7,9 @@ import { UsersService } from 'src/app/service/users.service';
 import { PermissionService } from 'src/app/service/permission.service';
 import { ApiService } from 'src/app/service/api.service';
 import { ToastService } from 'src/app/service/toast.service';
+import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -20,17 +23,18 @@ describe('LoginComponent', () => {
     const usersServiceMock = jasmine.createSpyObj('UsersService', ['loginUser']);
     const permissionServiceMock = jasmine.createSpyObj('PermissionService', ['setLoader']);
     const toastServiceMock = jasmine.createSpyObj('ToastService', ['showToast']);
+    const apiServiceMock = jasmine.createSpyObj('ApiService', ['getJsonData']);
     const routerMock = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
     await TestBed.configureTestingModule({
       declarations: [LoginComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule,HttpClientModule,SharedModule,BrowserAnimationsModule],
       providers: [
         { provide: UsersService, useValue: usersServiceMock },
         { provide: PermissionService, useValue: permissionServiceMock },
         { provide: ToastService, useValue: toastServiceMock },
+        { provide: ApiService, useValue:  apiServiceMock},
         { provide: Router, useValue: routerMock },
-        ApiService // assuming not used directly in test
       ]
     }).compileComponents();
 

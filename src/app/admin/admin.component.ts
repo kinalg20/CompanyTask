@@ -39,7 +39,7 @@ export class AdminComponent {
 
   userInfo : any = {};
   getUserInfo() {
-    this.userService.getUserInfoByToken().subscribe((res: any) => {
+    this.userService.getUserUsingSubjectBehaviour().subscribe((res: any) => {
       console.log(res);
       this.userInfo = res;
       this.menuList = this.menuList.filter((res:any)=> res.role.includes(this.userInfo.role));

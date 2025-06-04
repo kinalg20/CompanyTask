@@ -1,27 +1,28 @@
-# Admin
+# Admin Dashboard (Angular + Angular Material)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+This is a responsive Admin Dashboard built using **Angular 16** and **Angular Material**. It features a modern UI, dark/light theme toggle, language switching, and a secure login system.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 📌 Tech Stack
 
-## Code scaffolding
+- **Angular:** v16.2.16
+- **Node.js:** v18+
+- **Angular Material:** UI component library
+- **RxJS:** State management using BehaviorSubject
+- **ngx-translate:** Internationalization (EN / HI)
+- **Karma + Jasmine:** Unit testing
+- **npm:** Dependency management
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+## Getting Started
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Prerequisites
 
-## Running unit tests
+Ensure you have the following installed:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- **Node.js** v18 or higher → [Download Node.js](https://nodejs.org/)
+- **Angular CLI** v16 →  
+  ```bash
+  npm install -g @angular/cli@16

@@ -49,7 +49,7 @@ export class ApiService {
 
   async canActivateSecurePages(route: any, state: any): Promise<boolean> {
     try {
-      const loggedInUser: any = await firstValueFrom(this.userService.getUserInfoByToken());
+      const loggedInUser: any = await firstValueFrom(this.userService.getUserUsingSubjectBehaviour());
 
       if (!loggedInUser?.id) {
         this.router.navigateByUrl('/auth/login');
