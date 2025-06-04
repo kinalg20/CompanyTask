@@ -7,7 +7,7 @@ export const UserActions = createActionGroup({
   source: 'User/API',
   events: {
     'Load Users': emptyProps(),           // dispatched to load users (no payload)
-    'Load Users Success': props<{ users: User[] }>(), // on success
+    'Load Users Success': props<{ users: any }>(), // on success
     'Load Users Failure': props<{ error: any }>(),    // on failure
     'Add Users Success': emptyProps(), // on success
     'Add Users Failure': props<{ error: any }>(),    // on failure

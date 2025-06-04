@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ApiService } from 'src/app/service/api.service';
+import { ToastService } from 'src/app/service/toast.service';
 import { UsersService } from 'src/app/service/users.service';
 import { UserActions } from 'src/app/state/user.actions';
 
@@ -20,7 +21,7 @@ export class DialogComponent {
   closeDialog(result?: any) {
     this.dialogRef.close(result);
   }
-  constructor(public dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public apiService: ApiService, private userService: UsersService , private store: Store) {
+  constructor(public dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public apiService: ApiService, private userService: UsersService , private store: Store,private toastService : ToastService) {
     this.userForm.patchValue(data.userInfo);
   }
   userForm : any = new FormGroup({
@@ -43,7 +44,7 @@ export class DialogComponent {
         this.userService.getUsers().subscribe((res: any) => {
           let usersList = res.filter((resp: any) => resp.username == this.userForm.value.name);
           if (usersList?.length == 1) {
-            this.apiService.showToast('User Already Exists')
+            this.toastService.showToast('User Already Exists')
           }
           else {
             result.status = 'Submitted';

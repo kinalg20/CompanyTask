@@ -8,6 +8,7 @@ import { ApiService } from 'src/app/service/api.service';
 import { UsersService } from 'src/app/service/users.service';
 import { Store } from '@ngrx/store';
 import { UserActions } from 'src/app/state/user.actions';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-common-table',
@@ -23,7 +24,7 @@ export class CommonTableComponent {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('tableRef') tableRef!: ElementRef;
   @ViewChild('paginatorRef') paginationcss!: ElementRef;
-  constructor(private apiService: ApiService, private userService: UsersService, private dialog: MatDialog, private store: Store) { }
+  constructor(private apiService: ApiService, private userService: UsersService, private dialog: MatDialog, private store: Store,private toastSrvice : ToastService) { }
   ngOnInit() {
     // this.store.dispatch(UserActions.loadUsers());
   }
@@ -41,11 +42,11 @@ export class CommonTableComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (['Submitted', 'Updated'].includes(result?.status)) {
         if (result.status == 'Submitted') {
-          this.apiService.showToast('User Added Successfully')
+          this.toastSrvice.showToast('User Added Successfully')
         }
 
         else {
-          this.apiService.showToast('User Updated Successfully')
+          this.toastSrvice.showToast('User Updated Successfully')
         }
       }
     });
