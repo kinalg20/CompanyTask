@@ -11,33 +11,33 @@ import { UsersService } from '../service/users.service';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
-  constructor(private router : Router, private apiService : ApiService, private breakpointObserver: BreakpointObserver , private translate : TranslateService,private userService : UsersService){}
+  constructor(private router: Router, private userService: UsersService, private breakpointObserver: BreakpointObserver, private translate: TranslateService) { }
   isSmallScreen: boolean = false;
   toggleSettings = false;
   selectedLang = this.translate.currentLang || 'en';
 
-  routing(){
+  routing() {
     // this.apiService.logout()
   }
-  
 
-  ngOnInit(){
+
+  ngOnInit() {
     this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
       this.isSmallScreen = result.matches;
     });
-    this.selectedLang  = localStorage.getItem('selectedLang') ?? 'en';
+    this.selectedLang = localStorage.getItem('selectedLang') ?? 'en';
     this.translate.use(this.selectedLang);
-    this.getUserInfoByToken();
+    this.getUserInfo();
   }
 
   switchLanguage(lang: any) {
     this.translate.use(lang.value);
-    localStorage.setItem('selectedLang' , lang.value)
+    localStorage.setItem('selectedLang', lang.value)
   }
 
-  getUserInfoByToken(){
-    this.userService.getUserInfoByToken().subscribe((res:any)=>{
-      console.log(res);
-    })
+  getUserInfo() {
+    // this.userService.getUserInfoByToken().subscribe((res: any) => {
+    //   console.log(res);
+    // })
   }
 }

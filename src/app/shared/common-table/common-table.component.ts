@@ -24,7 +24,7 @@ export class CommonTableComponent {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('tableRef') tableRef!: ElementRef;
   @ViewChild('paginatorRef') paginationcss!: ElementRef;
-  constructor(private apiService: ApiService, private userService: UsersService, private dialog: MatDialog, private store: Store,private toastSrvice : ToastService) { }
+  constructor(private apiService: ApiService, private userService: UsersService, private dialog: MatDialog, private store: Store,private toastService : ToastService) { }
   ngOnInit() {
     // this.store.dispatch(UserActions.loadUsers());
   }
@@ -42,11 +42,11 @@ export class CommonTableComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (['Submitted', 'Updated'].includes(result?.status)) {
         if (result.status == 'Submitted') {
-          this.toastSrvice.showToast('User Added Successfully')
+          this.toastService.showToast('User Added Successfully')
         }
 
         else {
-          this.toastSrvice.showToast('User Updated Successfully')
+          this.toastService.showToast('User Updated Successfully')
         }
       }
     });

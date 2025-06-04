@@ -18,9 +18,14 @@
   
           <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
-            <input matInput formControlName="name" type="text"
+            <input matInput formControlName="name" type="text"/>
+            <mat-error *ngIf="userForm.get('name')?.hasError('required')">Name is required</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>User Name</mat-label>
+            <input matInput formControlName="username" type="text"
               (keydown)="apiService.preventSpace($event)" (paste)="apiService.blockPasteWithSpace($event)" />
-            <mat-error *ngIf="userForm.get('name')?.hasError('required')">Username is required</mat-error>
+            <mat-error *ngIf="userForm.get('username')?.hasError('required')">Username is required</mat-error>
           </mat-form-field>
   
           <mat-form-field appearance="outline">

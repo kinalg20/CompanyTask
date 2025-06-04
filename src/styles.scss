@@ -103,16 +103,13 @@ body.dark-mode select {
 }
 
 body.dark-mode .settings-panel-light {
-  background-color: #f1dede !important;
     color: #120101 !important;
-    display: contents !important;
 }
 
 body.dark-mode .settings-panel-light input,
 body.dark-mode .settings-panel-light select {
   background-color: #333 !important;
   color: #000 !important;
-  border-color: #ccc !important;
+  border-color: #f1dede  !important;
 }
-
 //darkmode end

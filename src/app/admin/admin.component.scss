@@ -31,10 +31,6 @@
   .hide-desktop {
     display: inline-flex;
   }
-
-  mat-sidenav {
-    mode: over;
-  }
 }
 
 .toolbar {
@@ -117,7 +113,6 @@
   align-items: center;
 }
 
-/* Keyframe for entrance */
 @keyframes fadeSlideIn {
   from {
     opacity: 0;

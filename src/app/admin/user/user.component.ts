@@ -12,7 +12,7 @@ import { take } from 'rxjs';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent {
-  displayedColumns: string[] = ['id', 'name', 'password', 'role', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'username' , 'password', 'role', 'actions'];
   users = new MatTableDataSource<any>([]);
   users$ = this.store.select(selectAllUsers);
   loading$ = this.store.select(selectLoading);

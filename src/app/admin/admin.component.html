@@ -12,7 +12,6 @@
 
     <mat-sidenav-content>
       <mat-toolbar color="primary" class="toolbar">
-        <!-- Show menu icon on small screen -->
         <button *ngIf="isSmallScreen" mat-icon-button (click)="sidenav.toggle()" aria-label="Toggle sidenav">
           <mat-icon>menu</mat-icon>
         </button>
@@ -20,11 +19,6 @@
         <span class="toolbar-title">{{'welcomeMessage' | translate}}</span>
 
         <span class="spacer"></span>
-        <!-- <select name="" id="" style="margin-right : 10px; padding: 5px;" (change)="switchLanguage($event)">
-          <option value="en">English</option>
-          <option value="hi">Hindi</option>
-        </select> -->
-
         <span class="toolbar-title toolbar">
           Kinal Kukda (Viewer)
           <button mat-icon-button [matMenuTriggerFor]="profileMenu">

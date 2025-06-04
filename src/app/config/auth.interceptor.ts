@@ -1,36 +1,51 @@
-
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { UsersService } from '../service/users.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 import { PermissionService } from '../service/permission.service';
+import { ApiService } from '../service/api.service';
+import { ToastService } from '../service/toast.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private permission: PermissionService) {}
+  constructor(private permission: PermissionService , private toastService :ToastService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.permission.setLoader(true);
-    let token = localStorage.getItem('auth_token')
-    let modifiedRequest = request
-    if(token) {
-      this.permission.setLoader(false);
+
+    const token = localStorage.getItem('user_token');
+    let modifiedRequest = request;
+
+    if (token) {
       modifiedRequest = request.clone({
         setHeaders: {
           'Authorization': `Bearer ${token}`,
         },
       });
     }
-    else{
-      this.permission.setLoader(false);
-    }
 
-    return next.handle(modifiedRequest);
+    return next.handle(modifiedRequest).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          console.error('Unauthorized — redirect to login or show message');
+        } else if (error.status === 500) {
+          console.error('Internal Server Error');
+        } else {
+          console.error(`Error Status: ${error.status}, Message: ${error.message}`);
+        }
+        this.toastService.showToast(error.error.error);
+        return throwError(() => error);
+      }),
+      finalize(() => {
+        this.permission.setLoader(false);
+      })
+    );
   }
 }
