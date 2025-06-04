@@ -12,6 +12,9 @@ import { ApiService } from '../service/api.service';
 export class AdminComponent {
   constructor(private router : Router, private apiService : ApiService, private breakpointObserver: BreakpointObserver , private translate : TranslateService){}
   isSmallScreen: boolean = false;
+  toggleSettings = false;
+  selectedLang = this.translate.currentLang || 'en';
+
   routing(){
     this.apiService.logout()
   }
@@ -21,11 +24,12 @@ export class AdminComponent {
     this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
       this.isSmallScreen = result.matches;
     });
+    this.selectedLang  = localStorage.getItem('selectedLang') ?? 'en';
+    this.translate.use(this.selectedLang);
   }
 
-  selectedLang = this.translate.currentLang || 'en';
-
   switchLanguage(lang: any) {
-    this.translate.use(lang.target.value);
+    this.translate.use(lang.value);
+    localStorage.setItem('selectedLang' , lang.value)
   }
 }

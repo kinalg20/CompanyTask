@@ -3,13 +3,18 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, catchError, lastValueFrom, map, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, lastValueFrom, map, Observable, of, tap } from 'rxjs';
+import { User } from '../state/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-
+  public userList: any = [
+    { id: 1, name: 'Alice', email: 'alice@mail.com', password: '1234', role: 'admin' },
+    { id: 2, name: 'Bob', email: 'bob@mail.com', password: '1234', role: 'admin' },
+    { id: 3, name: 'Charlie', email: 'charlie@mail.com', password: '1234', role: 'admin' },
+  ];
   private users$ = new BehaviorSubject<any[]>([]);
 
   constructor(
@@ -19,72 +24,39 @@ export class UsersService {
     private translate: TranslateService
   ) { }
 
-  getUsers() {
-    return this.http.get('https://api.escuelajs.co/api/v1/users');
-    // if (!this.users$.value || this.users$.value.length === 0) {
-    //   this.http.get('https://api.escuelajs.co/api/v1/users').subscribe({
-    //     next: (users: any) => this.users$.next(users),
-    //     error: (err) => {
-    //       console.error(err);
-    //       this.users$.next([]);
-    //     }
-    //   });
-    // }
-    // return this.users$;
-  }
-  
-
-
-  addUser(user: any) {
-    return this.http.post('https://api.escuelajs.co/api/v1/users', user);
-    // return lastValueFrom(this.http.post('https://dummyjson.com/users' , user));
-    // let getUserDetails : any = localStorage.getItem('userInfo');
-    // let savedRecords = JSON.parse(getUserDetails);
-    // if(getUserDetails?.length){
-    //   savedRecords.push({...user , ...{id : savedRecords?.length + 1}});
-    // }
-    // else{
-    //   savedRecords = [{...user , ...{id : 1}}]
-    // }
-    // localStorage.setItem('userInfo' , JSON.stringify(savedRecords))
-    // this.users$.next(savedRecords);
+  getUsers(): Observable<User[]> {
+    return of(this.userList)
   }
 
-  updateUser(id : any , updated: any) {
-    return this.http.post(`https://api.escuelajs.co/api/v1/users/${id}`, updated);
-    // return new Promise((resolve, reject) => {
-    //   try {
-    //     if (!this.users$ || !this.users$.value) {
-    //       return reject('User list not available.');
-    //     }
 
-    //     if (!updated || !updated.id) {
-    //       return reject('user id is invalid.');
-    //     }
+  addUser(user: User): Observable<User> {
+    const lastUser = this.userList[this.userList.length - 1];
+    const newId = lastUser ? lastUser.id + 1 : 1;
+    const newUser: any = { ...user, id: newId };
+    let userListClone: any = JSON.parse(JSON.stringify(this.userList))
+    userListClone.push(newUser);
+    this.userList = userListClone;
+    return of(newUser);
+  }
 
-    //     const current = this.users$.value.map(u => u.id === updated.id ? updated : u);
-    //     this.users$.next(current);
-    //     resolve(true);
-    //   }
 
-    //   catch (error) {
-    //     reject(error);
-    //   }
-    // });
 
+  updateUser(id: any, updated: any) {
+    let userListClone: any = JSON.parse(JSON.stringify(this.userList));
+    const index = userListClone.findIndex((res: any) => res.id == id);
+    if (index !== -1) {
+      userListClone[index] = { ...userListClone[index], ...updated };
+    }
+
+    this.userList = userListClone;
+    return of(updated);
   }
 
   deleteUser(id: number) {
-    return new Promise((resolve, reject) => {
-      try {
-        const current = this.users$.value.filter(u => u.id !== id);
-        this.users$.next(current);
-        localStorage.setItem('userInfo', JSON.stringify(current))
-      }
-
-      catch (err) {
-        reject(err);
-      }
-    })
+    let userListClone: any = JSON.parse(JSON.stringify(this.userList));
+    const index = userListClone.findIndex((res: any) => res.id == id);
+    userListClone.splice(index , 1);
+    this.userList = userListClone;
+    return of(id);
   }
 }

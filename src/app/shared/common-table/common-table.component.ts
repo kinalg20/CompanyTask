@@ -6,6 +6,8 @@ import { DialogComponent } from 'src/app/admin/dialog/dialog.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { ApiService } from 'src/app/service/api.service';
 import { UsersService } from 'src/app/service/users.service';
+import { Store } from '@ngrx/store';
+import { UserActions } from 'src/app/state/user.actions';
 
 @Component({
   selector: 'app-common-table',
@@ -15,13 +17,16 @@ import { UsersService } from 'src/app/service/users.service';
 export class CommonTableComponent {
   @Input() tableData: any = [];
   @Input() displayedColumns: any = [];
-  @Input() title : string = ''
-  @Input() showAddEdit : boolean = false; 
+  @Input() title: string = ''
+  @Input() showAddEdit: boolean = false;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('tableRef') tableRef!: ElementRef;
   @ViewChild('paginatorRef') paginationcss!: ElementRef;
-  constructor(private apiService: ApiService,private userService : UsersService, private dialog: MatDialog) { }
+  constructor(private apiService: ApiService, private userService: UsersService, private dialog: MatDialog, private store: Store) { }
+  ngOnInit() {
+    // this.store.dispatch(UserActions.loadUsers());
+  }
   openDialog(user?: any) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '800px',
@@ -50,13 +55,13 @@ export class CommonTableComponent {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '300px'
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Proceed with deletion
-        this.userService.deleteUser(id).then(() => {
-          this.apiService.showToast('user deleted successfully');
-        });
+        this.store.dispatch(UserActions.deleteUser({ id }));
+        // this.userService.deleteUser(id).subscribe(() => {
+        //   this.apiService.showToast('user deleted successfully');
+        // });
       }
     });
   }
@@ -76,5 +81,5 @@ export class CommonTableComponent {
     const filterValue = (event.target as HTMLInputElement).value;
     this.tableData.filter = filterValue.trim().toLowerCase();
   }
-  
+
 }

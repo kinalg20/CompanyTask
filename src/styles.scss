@@ -1,29 +1,118 @@
-/* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-// @import "~@angular/material/theming";
-// @include mat-core();
+:root {
+  --primary-color: #1c30e6;
+}
 
-// $light-theme: mat-light-theme((
-//   color: (
-//     primary: mat-palette($mat-indigo),
-//     accent: mat-palette($mat-pink)
-//   )
-// ));
+.loader {
+  border-radius: 100%;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  -webkit-animation: loader 2s infinite;
+  -moz-animation: loader 2s infinite;
+  animation: loader 2s infinite;
+  box-shadow: 25px 25px var(--primary-color), -25px 25px #c6d6e9, -25px -25px var(--primary-color), 25px -25px #94979b;
+  background-size: contain;
+}
 
-// $dark-theme: mat-dark-theme((
-//   color: (
-//     primary: mat-palette($mat-blue-grey),
-//     accent: mat-palette($mat-amber)
-//   )
-// ));
+@-webkit-keyframes loader {
+  0%, 100% {
+    box-shadow: 25px 25px var(--primary-color), -25px 25px #94979b, -25px -25px var(--primary-color), 25px -25px #94979b;
+  }
+  25% {
+    box-shadow: -25px 25px var(--primary-color), -25px -25px #94979b, 25px -25px var(--primary-color), 25px 25px #94979b;
+  }
+  50% {
+    box-shadow: -25px -25px var(--primary-color), 25px -25px #94979b, 25px 25px var(--primary-color), -25px 25px #94979b;
+  }
+  75% {
+    box-shadow: 25px -25px var(--primary-color), 25px 25px #94979b, -25px 25px var(--primary-color), -25px -25px #94979b;
+  }
+}
 
-// .light-theme {
-//   @include angular-material-theme($light-theme);
-// }
+@-moz-keyframes loader {
+  0%, 100% {
+    box-shadow: 25px 25px var(--primary-color), -25px 25px #94979b, -25px -25px var(--primary-color), 25px -25px #94979b;
+  }
+  25% {
+    box-shadow: -25px 25px var(--primary-color), -25px -25px #94979b, 25px -25px var(--primary-color), 25px 25px #94979b;
+  }
+  50% {
+    box-shadow: -25px -25px var(--primary-color), 25px -25px #94979b, 25px 25px var(--primary-color), -25px 25px #94979b;
+  }
+  75% {
+    box-shadow: 25px -25px var(--primary-color), 25px 25px #94979b, -25px 25px var(--primary-color), -25px -25px #94979b;
+  }
+}
 
-// .dark-theme {
-//   @include angular-material-theme($dark-theme);
-// }
+@keyframes loader {
+  0%, 100% {
+    box-shadow: 25px 25px var(--primary-color), -25px 25px #94979b, -25px -25px var(--primary-color), 25px -25px #94979b;
+  }
+  25% {
+    box-shadow: -25px 25px var(--primary-color), -25px -25px #94979b, 25px -25px var(--primary-color), 25px 25px #94979b;
+  }
+  50% {
+    box-shadow: -25px -25px var(--primary-color), 25px -25px #94979b, 25px 25px var(--primary-color), -25px 25px #94979b;
+  }
+  75% {
+    box-shadow: 25px -25px var(--primary-color), 25px 25px #94979b, -25px 25px var(--primary-color), -25px -25px #94979b;
+  }
+}
+
+#loader {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 99999;
+}
+
+
+//dark mode
+body.dark-mode {
+  background-color: #1e1e2f !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .sidebar {
+  background-color: #2c2c3c !important;
+}
+
+body.dark-mode .card,
+body.dark-mode input,
+body.dark-mode select {
+  background-color: #333 !important;
+  color: white !important;
+  border-color: #555 !important;
+}
+.dark-mode app-root * {
+  background-color: inherit;
+  color: inherit;
+}
+
+body.dark-mode .settings-panel-light {
+  background-color: #f1dede !important;
+    color: #120101 !important;
+    display: contents !important;
+}
+
+body.dark-mode .settings-panel-light input,
+body.dark-mode .settings-panel-light select {
+  background-color: #333 !important;
+  color: #000 !important;
+  border-color: #ccc !important;
+}
+
+//darkmode end

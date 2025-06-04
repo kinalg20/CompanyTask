@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs';
 import { Router } from '@angular/router';
-import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PermissionService {
+  showLoader: boolean = false;
 
   constructor(
-    private apiService : ApiService,
     private router : Router
   ) { }
 
@@ -51,5 +50,13 @@ export class PermissionService {
       //   }
       // )
     })
+  }
+  
+  get getLoader() {
+    return this.showLoader;
+  }
+
+  setLoader(status: any) {
+    this.showLoader = status;
   }
 }

@@ -22,3 +22,22 @@
         top: 24px!important;
     }
 }
+
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .form-row mat-form-field {
+    flex: 1 1 calc(50% - 10px);
+    min-width: 200px;
+  }
+  
+  @media (max-width: 600px) {
+    .form-row mat-form-field {
+      flex: 1 1 100%;
+    }
+  }
+  

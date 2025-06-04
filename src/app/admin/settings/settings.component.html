@@ -1,1 +1,15 @@
-<h2>{{ 'SETTINGS.TITLE' | translate }}</h2>
+<div class="switch-container">
+    <label for="switch">Dark Mode:</label>
+    <label class="switch">
+      <input
+        id="switch"
+        type="checkbox"
+        name="dark"
+        [(ngModel)]="dark"
+        (change)="settheme(dark)"
+      />
+      <span class="slider"></span>
+      <span class="decoration"></span>
+    </label>
+  </div>
+  

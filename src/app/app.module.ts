@@ -12,6 +12,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './config/auth.interceptor';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule, EffectsRootModule } from '@ngrx/effects';
+import { UserEffects } from './state/user.effects';
+import { usersFeature } from './state/user.reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +35,11 @@ import { AuthInterceptor } from './config/auth.interceptor';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
+    StoreModule.forFeature(usersFeature),
+    EffectsModule.forFeature([UserEffects])
   ],
   providers: [
      {
