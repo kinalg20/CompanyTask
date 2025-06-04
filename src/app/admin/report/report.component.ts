@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/app/service/api.service';
+import { PermissionService } from 'src/app/service/permission.service';
 
 @Component({
   selector: 'app-report',
@@ -8,7 +9,7 @@ import { ApiService } from 'src/app/service/api.service';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent {
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService,private permission : PermissionService) { }
   displayedColumns: string[] = [];
   reportList = new MatTableDataSource<any>([]);
   ngOnInit() {
@@ -16,9 +17,19 @@ export class ReportComponent {
   }
 
   async getReport() {
-    this.apiService.getReportsData().subscribe((report:any) => {
-      this.reportList.data = report.rows;
-      this.displayedColumns = Object.keys(this.reportList.data[0]);
-    });
+    this.permission.setLoader(true);
+    this.apiService.getReportsData().subscribe({
+      next: (report : any) => {
+        this.reportList.data = report.rows;
+        this.displayedColumns = Object.keys(this.reportList.data[0]);
+      },
+      complete:()=>{
+        this.permission.setLoader(false);
+      },
+      error : (err)=>{
+        console.log(err);
+        this.permission.setLoader(false);
+      }
+    })
   }
 }

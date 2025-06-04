@@ -13,7 +13,7 @@ export const UserActions = createActionGroup({
     'Add Users Failure': props<{ error: any }>(),    // on failure
     'Add User': props<{ user: User }>(),
     'Upsert User': props<{ user: User }>(),
-    'Add Users': props<{ users: User[] }>(),
+    'Add Users': props<{ users: User }>(),
     'Upsert Users': props<{ users: User[] }>(),
     'Update User': props<{ user: Update<User> }>(),
     'Update Users': props<{ users: Update<User>[] }>(),

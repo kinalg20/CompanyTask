@@ -1,1 +1,6 @@
 <router-outlet></router-outlet>
+<ng-container *ngIf="permission.getLoader">
+    <div id="loader" >
+        <div id='loadingDiv' class="loader"></div>
+    </div>
+</ng-container>
